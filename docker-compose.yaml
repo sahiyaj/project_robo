@@ -30,7 +30,7 @@ services:
   redis:
     image: redis
   cart:
-    image: vart:v2
+    image: cart:v2
     container_name: cart
     depends_on:
     - redis
