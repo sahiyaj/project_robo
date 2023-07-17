@@ -13,6 +13,7 @@ services:
     - mongodb
     - user
     - cart
+    - mysql
   mongodb:
     image: mongodb:v2
     container_name: mongodb
@@ -34,4 +35,12 @@ services:
     container_name: cart
     depends_on:
     - redis
-    - catalogue      
+    - catalogue
+  mysql:
+    image: mysql:v2
+    container_name: mysql
+  shipping:
+    image: shipping:v2
+    container_name: shipping
+    depends_on:
+    - mysql    
