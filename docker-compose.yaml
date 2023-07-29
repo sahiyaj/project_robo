@@ -53,6 +53,12 @@ services:
     container_name: payment
     depends_on:
     - rabbitmq
+  rattings:
+    image: ratings:v2 
+    container_name: ratings
+    depends_on:
+    - mysql
+
 
 
   
