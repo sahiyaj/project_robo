@@ -12,7 +12,6 @@ services:
     - catalogue
     - mongodb
     - user
-    - cart
   mongodb:
     image: mongodb:v2
     container_name: mongodb
