@@ -29,10 +29,5 @@ services:
     - redis
   redis:
     image: redis
-  cart:
-    image: cart:v2
-    container_name: cart
-    depends_on:
-    - redis
-    - catalogue
+  
   
