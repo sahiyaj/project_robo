@@ -4,7 +4,7 @@ networks:
     driver: bridge
 services:
   web:
-    image: web:v2
+    image: sahiya/web:v2
     container_name: web
     ports:
     - "80:80"
@@ -16,15 +16,15 @@ services:
     - mysql
     - shipping
   mongodb:
-    image: mongodb:v2
+    image: sahiya/mongodb:v2
     container_name: mongodb
   catalogue:
-    image: catalogue:v2
+    image: sahiya/catalogue:v2
     container_name: catalogue
     depends_on:
     - mongodb  
   user:
-    image: user:v2
+    image: sahiya/user:v2
     container_name: user
     depends_on:
     - mongodb
@@ -32,16 +32,16 @@ services:
   redis:
     image: redis
   cart:
-    image: cart:v2
+    image: sahiya/cart:v2
     container_name: cart
     depends_on:
     - redis
     - catalogue
   mysql:
-    image: mysql:v2
+    image: sahiya/mysql:v2
     container_name: mysql  
   shipping:
-    image: shipping:v2  
+    image: sahiya/shipping:v2  
     container_name: shipping
     depends_on:
     - mysql
@@ -49,12 +49,12 @@ services:
     image: rabbitmq
     container_name: rabbitmq  
   payment:
-    image: payment:v2
+    image: sahiya/payment:v2
     container_name: payment
     depends_on:
     - rabbitmq
   rattings:
-    image: ratings:v2 
+    image: sahiya/ratings:v2 
     container_name: ratings
     depends_on:
     - mysql
