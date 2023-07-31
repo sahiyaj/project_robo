@@ -2,9 +2,35 @@ version: "3.9"
 networks:
   roboshop:
     driver: bridge
+  volumes:
+   mysql:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/ec2-user/mysql
+   rabbitmq:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/ec2-user/rabbitmq
+   redis:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/ec2-user/redis
+   mongodb:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/ec2-user/mongodb   
+        
 services:
   web:
-    image: sahiya/web:v2
+    image: web:v2
     container_name: web
     ports:
     - "80:80"
@@ -16,45 +42,54 @@ services:
     - mysql
     - shipping
   mongodb:
-    image: sahiya/mongodb:v2
+    image: mongodb:v2
     container_name: mongodb
+    volumes:
+    - mongodb:/data/db
   catalogue:
-    image: sahiya/catalogue:v2
+    image: catalogue:v2
     container_name: catalogue
     depends_on:
     - mongodb  
   user:
-    image: sahiya/user:v2
+    image: user:v2
     container_name: user
     depends_on:
     - mongodb
     - redis
   redis:
     image: redis
+    container_name: redis
+    volumes:
+    - redis:/data
   cart:
-    image: sahiya/cart:v2
+    image: cart:v2
     container_name: cart
     depends_on:
     - redis
     - catalogue
   mysql:
-    image: sahiya/mysql:v2
-    container_name: mysql  
+    image: mysql:v2
+    container_name: mysql
+    volumes:
+    - mysql:/var/lib/mysql
   shipping:
-    image: sahiya/shipping:v2  
+    image: shipping:v2  
     container_name: shipping
     depends_on:
     - mysql
   rabbitmq:
     image: rabbitmq
-    container_name: rabbitmq  
+    container_name: rabbitmq
+    volumes:
+    - rabbitmq:/var/lib/rabbitmq
   payment:
-    image: sahiya/payment:v2
+    image: payment:v2
     container_name: payment
     depends_on:
     - rabbitmq
   rattings:
-    image: sahiya/ratings:v2 
+    image: ratings:v2 
     container_name: ratings
     depends_on:
     - mysql
